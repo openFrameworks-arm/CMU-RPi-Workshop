@@ -21,4 +21,5 @@ class ofApp : public ofBaseApp{
 	ofImage sourceImage;
 	ofFbo fbo;
 	ofShader shader;
+	ofVideoPlayer videoPlayer;
 };
