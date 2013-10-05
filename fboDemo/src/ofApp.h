@@ -17,4 +17,8 @@ class ofApp : public ofBaseApp{
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
+	
+	ofImage sourceImage;
+	ofFbo fbo;
+	ofShader shader;
 };

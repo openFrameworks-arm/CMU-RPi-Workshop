@@ -2,6 +2,8 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
+	sourceImage.loadImage("Raspi_Colour_R.png");
+	fbo.allocate(sourceImage.getWidth(), sourceImage.getHeight());
 
 }
 
@@ -12,7 +14,9 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-
+	fbo.begin();
+		sourceImage.draw(0, 0);
+	fbo.end();
 }
 
 //--------------------------------------------------------------
