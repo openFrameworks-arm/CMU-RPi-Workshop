@@ -36,7 +36,7 @@ void ofApp::draw(){
 			//move our focus to a random position
 			ofTranslate(ofRandom(ofGetWidth()), ofRandom(ofGetHeight()));
 	
-			//We want to scale from the center as opposed to the default uppper left
+			//We want to scale from the center as opposed to the default upper left
 			ofSetRectMode(OF_RECTMODE_CENTER);
 	
 				//our image is kinda large - scaling it to at most half the size

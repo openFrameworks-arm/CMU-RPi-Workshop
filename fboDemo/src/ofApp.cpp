@@ -1,30 +1,32 @@
 #include "ofApp.h"
 
-int videoWidth = 0;
-int videoHeight = 0;
-int x = 0;
-int y = 0;
+
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-	//sourceImage.loadImage("Raspi_Colour_R.png");
+
+	videoDrawX = 0;
+	videoDrawY = 0;
+	
 	fbo.allocate(ofGetWidth(), ofGetHeight());
 	
 	videoPlayer.loadMovie("fingers.mp4");
 	
-	videoWidth = videoPlayer.getWidth()/4;
-	videoHeight = videoPlayer.getHeight()/4;
+	videoDrawWidth = videoPlayer.getWidth()/4;
+	videoDrawHeight = videoPlayer.getHeight()/4;
 	videoPlayer.play();
-	videoPlayer.setLoopState(OF_LOOP_NORMAL);
+	videoPlayer.setLoopState(OF_LOOP_NORMAL); //This seems to only set after play is called
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
+	
 	videoPlayer.update();
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
+	
 	if (videoPlayer.isFrameNew()) 
 	{
 		fbo.begin();
@@ -34,29 +36,32 @@ void ofApp::draw(){
 		}
 		ofPushStyle();
 			ofSetColor(ofRandom(255), ofRandom(255), ofRandom(255));
-			videoPlayer.draw(x, y, videoWidth, videoHeight);
-			ofDrawBitmapString(ofToString(videoPlayer.getCurrentFrame()), x, y+20);
+			videoPlayer.draw(videoDrawX, videoDrawY, videoDrawWidth, videoDrawHeight);
+			ofDrawBitmapString(ofToString(videoPlayer.getCurrentFrame()), videoDrawX, videoDrawY+20);
 		ofPopStyle();
-		if(x+videoWidth< ofGetWidth())
+		
+		if(videoDrawX+videoDrawWidth < ofGetWidth())
 		{
-			x+=videoWidth;
+			videoDrawX+=videoDrawWidth;
 			
 		}else
 		{
-			x = 0;
-			if (y+videoHeight<ofGetHeight()) 
+			videoDrawX = 0;
+			if (videoDrawY+videoDrawHeight < ofGetHeight()) 
 			{
-				y+=videoHeight;
+				videoDrawY+=videoDrawHeight;
 			}else 
 			{
-				y = 0;
+				videoDrawY = 0;
 			}
 		}
 		
 		fbo.end();
 	}
+	
 	fbo.draw(0, 0);
 	ofDrawBitmapString(ofToString(ofGetFrameRate()), 100, 100);
+	
 }
 
 //--------------------------------------------------------------

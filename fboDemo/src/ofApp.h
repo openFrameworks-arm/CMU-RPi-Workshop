@@ -18,8 +18,13 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
 	
-	ofImage sourceImage;
 	ofFbo fbo;
 	ofShader shader;
+	
 	ofVideoPlayer videoPlayer;
+	
+	int videoDrawWidth;
+	int videoDrawHeight;
+	int videoDrawX;
+	int videoDrawY;
 };
