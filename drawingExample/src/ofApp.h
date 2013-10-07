@@ -18,7 +18,4 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
 	
-	ofImage image;
-	ofPlanePrimitive plane;
-	ofSpherePrimitive sphere;
 };

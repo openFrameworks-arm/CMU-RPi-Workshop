@@ -3,42 +3,18 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-	//ofSetVerticalSync(false);
-	image.loadImage("of.png");
-	plane.set( image.getWidth(), image.getHeight());
-	sphere.setRadius(image.getWidth());
-	sphere.mapTexCoordsFromTexture(image.getTextureReference());
+
 	ofEnableSmoothing();
 	ofEnableAntiAliasing();
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
-	//ofSetColor(ofColor::red);
 	
 }
 
-int x = 0;
-int y = 0;
-int gridSize =1;
-
-
-
-void drawMoving()
+ofColor getRandomColor()
 {
-	ofPushStyle();
-	
-	x+=10;
-	if (x>ofGetWidth()) 
-	{
-		x=0;
-		y+=100;
-		if (y>ofGetHeight()) 
-		{
-			y=0;
-		}
-	}
-	ofNoFill();
 	/*
 	 white, gray, black, red, green, blue, cyan, magenta,
 	 yellow,aliceBlue,antiqueWhite,aqua,aquamarine,azure,beige,bisque,blanchedAlmond,
@@ -60,21 +36,6 @@ void drawMoving()
 	 springGreen,steelBlue,blueSteel,tan,teal,thistle,tomato,turquoise,violet,wheat,whiteSmoke,
 	 yellowGreen;
 	 */
-	ofSetColor(ofColor::fireBrick);
-	ofDrawSphere(x, y, 100);
-	ofPopStyle();
-	
-	ofPushMatrix();
-	ofTranslate(x, y);
-	ofCircle(0, 0, 100);
-	ofDrawGrid(gridSize);
-	ofPopMatrix();
-	
-}
-int spin = 0;
-
-ofColor getRandomColor()
-{
 	return ofColor(ofRandom(255), ofRandom(255), ofRandom(255));
 }
 
@@ -257,64 +218,6 @@ void ofApp::draw(){
 		ofDrawGrid(50, 8.0f, false, true, true, true);
 		
 	ofPopMatrix();
-	
-	
-	//ofSetColor(ofColor::red);
-	//ofCircle(0, 0, 100);
-	
-	//ofEllipse
-	//ofLine
-	//ofRect(0, 0, 100, 100);
-	
-	/*ofRectangle rectangle(0, 0, 100, 100);
-	ofRect(rectangle);
-	
-	ofRectRounded(rectangle, 1.0);*/
-	
-		//void ofDrawGrid(float scale = 10.0f, float ticks = 8.0f, bool labels = false, bool x = true, bool y = true, bool z = true)
-	/*ofPushMatrix();
-		ofTranslate(ofGetWidth()/2, ofGetHeight()/2);
-		gridSize++;
-		if(gridSize>ofGetHeight()/2)
-		{
-			gridSize = 1;
-		}
-		
-			ofRect(0, 0, gridSize, gridSize);
-			//ofDrawBitmapString("OF_RECTMODE_CORNER", 0, 0);
-			ofDrawGrid(gridSize, 8.0f, false, false, false, true);
-			image.draw(0, 0);
-		
-		//ofDrawGridPlane(gridSize);
-	ofPopMatrix();*/
-	/*int quarterScreenWidth = ofGetWidth()/4;
-	int quarterScreenHeight= ofGetHeight()/4;
-	
-	spin++;
-	if(spin>360) spin = 0;
-	
-	ofPushMatrix();
-		ofTranslate(quarterScreenWidth, quarterScreenHeight);
-		ofRotateY(spin);
-		image.bind();
-			plane.drawFaces();
-		image.unbind();
-	ofPopMatrix();
-	
-	ofPushMatrix();
-		ofTranslate(quarterScreenWidth*2, quarterScreenHeight);
-		image.bind();
-			sphere.drawFaces();
-		image.unbind();
-	ofPopMatrix();
-	
-	ofPushMatrix();
-		ofTranslate(quarterScreenWidth*3, quarterScreenHeight);
-		ofRotateY(spin);
-		image.bind();
-			sphere.drawFaces();
-		image.unbind();
-	ofPopMatrix();*/
 }
 
 //--------------------------------------------------------------
