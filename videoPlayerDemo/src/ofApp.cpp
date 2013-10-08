@@ -81,28 +81,28 @@ void ofApp::draw(){
 		//Draw video source
 		ofPushMatrix();
 			colorImage.draw(0, 0);
-			//font.drawString("colorImage", textMargin, textMargin);
+			font.drawString("colorImage", textMargin, textMargin);
 		ofPopMatrix();
 		
 		//Draw Grayscale video
 		ofPushMatrix();
 			ofTranslate(videoWidth, 0);
 			grayImage.draw(0, 0);
-			//font.drawString("grayImage", textMargin, textMargin);
+			font.drawString("grayImage", textMargin, textMargin);
 		ofPopMatrix();
 		
 		//Draw Background
 		ofPushMatrix();
 			ofTranslate(0, videoHeight);
 			backgroundImage.draw(0, 0);
-			//font.drawString("backgroundImage", textMargin, textMargin);
+			font.drawString("backgroundImage", textMargin, textMargin);
 		ofPopMatrix();
 		
 		//Draw Difference Image
 		ofPushMatrix();
 			ofTranslate(videoWidth, videoHeight);
 			differenceImage.draw(0, 0);
-			//font.drawString("differenceImage", textMargin, textMargin);
+			font.drawString("differenceImage", textMargin, textMargin);
 		ofPopMatrix();
 		
 		//Draw Contours
