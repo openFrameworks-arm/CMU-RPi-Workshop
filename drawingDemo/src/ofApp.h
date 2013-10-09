@@ -29,7 +29,7 @@ class ofApp : public ofBaseApp, public SSHKeyListener{
     ofBoxPrimitive box;
 	
 	vector<of3dPrimitive> primitives;
-	int counter;
+	std::size_t counter;
 	
 	void onCharacterReceived(SSHKeyListenerEventData& e);
 	ConsoleListener consoleListener;
