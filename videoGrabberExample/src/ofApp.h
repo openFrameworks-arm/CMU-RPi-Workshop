@@ -17,4 +17,17 @@ class ofApp : public ofBaseApp{
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
+	
+	ofVideoGrabber		videoGrabber;
+	
+	unsigned char*			invertedPixels;
+	int						numInvertedPixels;
+	ofTexture				invertedTexture;
+	
+	int						cameraWidth;
+	int						cameraHeight;
+	
+	bool doInvertPixels;
+	
+	ofShader shader;
 };
