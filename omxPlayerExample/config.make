@@ -11,6 +11,17 @@
 # OF_ROOT = ../../..
 
 ################################################################################
+# App Name
+# 	Custom Application Name
+#       (default) APPNAME = (this project's folder name)
+# App Name Suffix
+#       (default) APPNAME_SUFFIX = .app
+#
+################################################################################
+# APPNAME = customAppName
+# APPNAME_SUFFIX = .app
+
+################################################################################
 # PROJECT ROOT
 #   The location of the project - a starting place for searching for files
 #       (default) PROJECT_ROOT = . (this directory)
@@ -61,7 +72,7 @@
 #
 #   Note: Leave a leading space when adding list items with the += operator
 ################################################################################
-# PROJECT_EXCLUSIONS =
+PROJECT_EXCLUSIONS =$(PROJECT_ROOT)/addons/ofxOMXPlayer/libs/ffmpeg/include%
 
 ################################################################################
 # PROJECT LINKER FLAGS
@@ -76,8 +87,21 @@
 # $(PROJECT_ROOT)/bin/libs directory.  The following LDFLAGS tell the linker to
 # add a runtime path to search for those shared libraries, since they aren't 
 # incorporated directly into the final executable application binary.
-# TODO: should this be a default setting?
-# PROJECT_LDFLAGS=-Wl,-rpath=./libs
+
+
+FFMPEG_LIBS = $(PROJECT_ROOT)/addons/ofxOMXPlayer/libs/ffmpeg/libs
+FORMAT_STATIC=$(FFMPEG_LIBS)/libavformat.a
+CODEC_STATIC=$(FFMPEG_LIBS)/libavcodec.a
+SCALE_STATIC=$(FFMPEG_LIBS)/libswscale.a
+UTIL_STATIC=$(FFMPEG_LIBS)/libavutil.a
+
+#unused but available
+FILTER_STATIC=$(FFMPEG_LIBS)/libavfilter.a
+POSTPROC_STATIC=$(FFMPEG_LIBS)/libpostproc.a
+DEVICE_STATIC=$(FFMPEG_LIBS)/libavdevice.a
+RESAMPLE_STATIC=$(FFMPEG_LIBS)/libswresample.a
+
+PROJECT_LDFLAGS=-L$(FFMPEG_LIBS) $(FORMAT_STATIC) $(CODEC_STATIC) $(SCALE_STATIC) $(UTIL_STATIC) $(RESAMPLE_STATIC) $(FILTER_STATIC) -lm
 
 ################################################################################
 # PROJECT DEFINES
@@ -88,7 +112,16 @@
 #
 #   Note: Leave a leading space when adding list items with the += operator
 ################################################################################
-# PROJECT_DEFINES = 
+PROJECT_DEFINES += __STDC_CONSTANT_MACROS 
+PROJECT_DEFINES += __STDC_LIMIT_MACROS 
+PROJECT_DEFINES += TARGET_POSIX 
+PROJECT_DEFINES += _LINUX
+#http://en.wikipedia.org/wiki/Position-independent_code 
+PROJECT_DEFINES += PIC 
+#Defining _REENTRANT causes the compiler to use thread safe (i.e. re-entrant) versions of several functions in the C library.
+PROJECT_DEFINES += _REENTRANT 
+PROJECT_DEFINES += OMX 
+PROJECT_DEFINES += OMX_SKIP64BIT 
 
 ################################################################################
 # PROJECT CFLAGS
@@ -105,7 +138,8 @@
 #
 #   Note: Leave a leading space when adding list items with the += operator
 ################################################################################
-# PROJECT_CFLAGS = 
+PROJECT_CFLAGS = -I$(PROJECT_ROOT)/addons/ofxOMXPlayer/libs/ffmpeg/include -fPIC -U_FORTIFY_SOURCE -Wall -ftree-vectorize -ftree-vectorize
+ 
 
 ################################################################################
 # PROJECT OPTIMIZATION CFLAGS

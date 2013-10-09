@@ -24,11 +24,26 @@ class ofApp : public ofBaseApp, public SSHKeyListener, public ofxOMXPlayerListen
 	ofxOMXPlayerSettings settings;
 	ofxOMXPlayer omxPlayer;
 	
+	
+	//void createPlayer(string videoPath);
+	
 	//allows key commands via Shell
 	void onCharacterReceived(SSHKeyListenerEventData& e);
 	ConsoleListener consoleListener;
 	
 	//ofxOMXPlayerListener inheritance
-	void onVideoEnd(ofxOMXPlayerListenerEventData& e){};
-	void onVideoLoop(ofxOMXPlayerListenerEventData& e){};
+	void onVideoEnd(ofxOMXPlayerListenerEventData& e);
+	void onVideoLoop(ofxOMXPlayerListenerEventData& e);
+	
+	vector<ofFile> files;
+	int videoCounter;
+	
+	bool doPixels;
+	ofImage image;
+	
+	bool doShader;
+	ofFbo fbo;
+	ofShader shader;
+	
+	bool doDrawInfo;
 };

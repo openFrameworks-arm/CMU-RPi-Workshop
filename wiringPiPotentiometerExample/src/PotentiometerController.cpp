@@ -32,6 +32,7 @@ bool PotentiometerController::setup()
 	}else 
 	{
 		ofLogError() << "wiringPiSetup FAIL status: " << status;
+		ofLogError() << "In order to access GPIO you need to run as sudo, try \"sudo make run\"";
 	}
     
 	if (isReady) 
