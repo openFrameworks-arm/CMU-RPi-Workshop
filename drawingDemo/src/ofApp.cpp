@@ -107,10 +107,10 @@ void ofApp::draw()
 	{
 		float angle = (ofGetElapsedTimef() * 1.4);
 		ofVec3f faceNormal;
-		for(int i = 0; i < triangles.size(); i++ ) {
+		for(std::size_t i = 0; i < triangles.size(); i++ ) {
 			float frc = ofSignedNoise(angle* (float)i * .1, angle*.05) * 4;
 			faceNormal = triangles[i].getFaceNormal();
-			for(int j = 0; j < 3; j++ ) {
+			for(std::size_t j = 0; j < 3; j++ ) {
 				triangles[i].setVertex(j, triangles[i].getVertex(j) + faceNormal * frc );
 			}
 		}
