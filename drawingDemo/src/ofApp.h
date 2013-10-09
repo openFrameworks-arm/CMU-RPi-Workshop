@@ -1,8 +1,9 @@
 #pragma once
 
 #include "ofMain.h"
+#include "ConsoleListener.h"
 
-class ofApp : public ofBaseApp{
+class ofApp : public ofBaseApp, public SSHKeyListener{
 	public:
 		void setup();
 		void update();
@@ -17,4 +18,26 @@ class ofApp : public ofBaseApp{
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
+	
+	ofTexture texture;
+	
+	ofSpherePrimitive sphere;
+    ofIcoSpherePrimitive icoSphere;
+    ofPlanePrimitive plane;
+    ofCylinderPrimitive cylinder;
+    ofConePrimitive cone;
+    ofBoxPrimitive box;
+	
+	vector<of3dPrimitive> primitives;
+	int counter;
+	
+	void onCharacterReceived(SSHKeyListenerEventData& e);
+	ConsoleListener consoleListener;
+	
+	bool wireframeMode;
+	bool enableTexture;
+	vector<ofMeshFace> triangles;
+	
+	bool doBreakApart;
+	bool doResetIco;
 };
