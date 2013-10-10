@@ -20,4 +20,5 @@ class ofApp : public ofBaseApp{
 	
 	ofFbo fbo;
 	ofImage sourceImage;
+	int counter;
 };

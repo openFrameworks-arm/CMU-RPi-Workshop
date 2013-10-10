@@ -3,12 +3,13 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
 	
+	ofSetVerticalSync(false);
 	//Load in an image from bin/data
 	sourceImage.loadImage("Raspi_Colour_R.png");
 	
 	//ofFbos must be allocated, you get RGBA by default
 	fbo.allocate(ofGetWidth(), ofGetHeight());
-	
+	counter = 0;
 }
 
 //--------------------------------------------------------------
@@ -20,14 +21,16 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-	
+	ofBackground(ofColor::black);
+
 	//Let's work in our Fbo
 	fbo.begin();
 	
-		//clear every 100 frames
-		if (ofGetFrameNum()%100 == 0) 
+		//clear once we have drawn 1000 pis
+		if (counter>=1000) 
 		{
 			ofClear(0, 0, 0, 0);
+			counter = 0;
 		}
 	
 		//use ofPushMatrix/ofPopMatrix to isolate transforms
@@ -39,10 +42,13 @@ void ofApp::draw(){
 			//We want to scale from the center as opposed to the default upper left
 			ofSetRectMode(OF_RECTMODE_CENTER);
 	
-				//our image is kinda large - scaling it to at most half the size
-				float randomScale = ofRandom(0.1, 0.5);
+				//our image is kinda large - scaling it to at most 1/5 the size
+				float randomScale = ofRandom(0.01, 0.05);
 				ofScale(randomScale, randomScale);
-	
+				
+				//With OF_RECTMODE_CENTER our image will rotate 
+				//using the center point as the anchor
+				ofRotate(ofRandom(360));
 				//since our focus has been modified with ofTranslate we can use a clean x,y of 0,0
 				sourceImage.draw(0, 0);
 	
@@ -50,17 +56,6 @@ void ofApp::draw(){
 			ofSetRectMode(OF_RECTMODE_CORNER);
 	
 		//Leave our transform sandbox
-		ofPopMatrix();
-		
-		//Spin one in the center
-		ofPushMatrix();
-		ofTranslate(ofGetWidth()/2, ofGetHeight()/2);
-			int randomRotation = ofRandom(360);
-			ofSetRectMode(OF_RECTMODE_CENTER);
-				ofScale(.5, .5);
-				ofRotate(randomRotation);
-				sourceImage.draw(0, 0);
-			ofSetRectMode(OF_RECTMODE_CORNER);
 		ofPopMatrix();
 	
 	//Stop our Fbo work
