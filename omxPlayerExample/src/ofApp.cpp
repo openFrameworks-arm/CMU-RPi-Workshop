@@ -3,7 +3,6 @@
 //--------------------------------------------------------------
 void ofApp::setup()
 {
-	//ofSetVerticalSync(false);
 	ofHideCursor();
 	
 	/*
