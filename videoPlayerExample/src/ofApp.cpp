@@ -1,32 +1,55 @@
 #include "ofApp.h"
 
+void ofApp::onEndOfStream(ofEventArgs& args)
+{
+	ofLogVerbose() << "onEOS";
+	doProcessPixels = !doProcessPixels;
+}
 
 //--------------------------------------------------------------
 void ofApp::setup(){
 	ofBackground(255,255,255);
-	frameByframe = false;
-
+	
+	//We want to receive an event when gstreamer reaches the end of stream
+	//so we need to get access to some internals to attach as a listener
+	
+	//Create a pointer to a new ofGstVideoPlayer
+	gstVideoPlayer = new ofGstVideoPlayer();
+	
+	//Create a smart pointer that ofVideoPlayer requires 
+	ofPtr<ofBaseVideoPlayer> baseVideoPlayer = ofPtr<ofBaseVideoPlayer>(gstVideoPlayer);
+	
+	//ofGstVideoUtils is what dispatches the events - get a reference
+	gstVideoUtils = gstVideoPlayer->getGstVideoUtils();
+	
+	//We add our listener
+	ofAddListener(gstVideoUtils->eosEvent, this, &ofApp::onEndOfStream);
+	
+	//If you were creating multiple players you would want to do this at cleanup
+	//We are only using one player so we are okay
+	//ofRemoveListener(gstVideoUtils->eosEvent, &ofApp::onEndOfStream);
+	
+	videoPlayer.setPlayer(baseVideoPlayer);
+	
+	
 	// Uncomment this to show movies with alpha channels
 	// videoPlayer.setPixelFormat(OF_PIXELS_RGBA);
-
+	
+	
 	videoPlayer.loadMovie("walkingFingers.mov");
 	videoPlayer.setLoopState(OF_LOOP_NORMAL); //must set this after loadMovie on the RPI
 	videoWidth = videoPlayer.getWidth();
 	videoHeight = videoPlayer.getHeight();
 	videoPlayer.play();
+	
 	doProcessPixels = false;
-	//ofPtr<ofBaseVideoPlayer> player  = videoPlayer.getPlayer();
-	//ofGstVideoUtils* utils = (ofGstVideoPlayer*) player->getGstVideoUtils();
-	ofPtr<ofBaseVideoPlayer> player = ofPtr<ofBaseVideoPlayer>(player->getGstVideoUtils());
+	
+	
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
     videoPlayer.update();
-	if(videoPlayer.getCurrentFrame() == videoPlayer.getTotalNumFrames())
-	{
-		doProcessPixels = !doProcessPixels;
-	}
 }
 
 //--------------------------------------------------------------
@@ -74,47 +97,16 @@ void ofApp::draw(){
 		ofSetColor(ofColor::white);
 		stringstream info;
 		info << "App FPS: "		<< ofGetFrameRate()															<< "\n";
-		info << "Frame #: "		<< videoPlayer.getCurrentFrame() << "/" << videoPlayer.getTotalNumFrames()	<< "\n";
+		info << "Frame: "		<< videoPlayer.getCurrentFrame() << "/" << videoPlayer.getTotalNumFrames()	<< "\n";
 		info << "Duration: "	<< videoPlayer.getDuration()												<< "\n";
 		info << "Speed: "		<< videoPlayer.getSpeed()													<< "\n";
 		ofDrawBitmapString(info.str(), 100, 100);
 	ofPopStyle();
-	
-   /* ofSetHexColor(0x000000);
-	ofDrawBitmapString("press f to change",20,videoWidth);
-    if(frameByframe) ofSetHexColor(0xCCCCCC);
-    ofDrawBitmapString("mouse speed position",20,340);
-    if(!frameByframe) ofSetHexColor(0xCCCCCC); else ofSetHexColor(0x000000);
-    ofDrawBitmapString("keys <- -> frame by frame " ,190,340);
-    ofSetHexColor(0x000000);
-
-    ofDrawBitmapString("frame: " + ofToString(videoPlayer.getCurrentFrame()) + "/"+ofToString(videoPlayer.getTotalNumFrames()),20,380);
-    ofDrawBitmapString("duration: " + ofToString(videoPlayer.getPosition()*videoPlayer.getDuration(),2) + "/"+ofToString(videoPlayer.getDuration(),2),20,400);
-    ofDrawBitmapString("speed: " + ofToString(videoPlayer.getSpeed(),2),20,420);
-
-    if(videoPlayer.getIsMovieDone()){
-        ofSetHexColor(0xFF0000);
-        ofDrawBitmapString("end of movie",20,440);
-    }*/
-}
+	}
 
 //--------------------------------------------------------------
 void ofApp::keyPressed  (int key){
-    switch(key){
-        case 'f':
-            frameByframe=!frameByframe;
-            videoPlayer.setPaused(frameByframe);
-        break;
-        case OF_KEY_LEFT:
-            videoPlayer.previousFrame();
-        break;
-        case OF_KEY_RIGHT:
-            videoPlayer.nextFrame();
-        break;
-        case '0':
-            videoPlayer.firstFrame();
-        break;
-    }
+    
 }
 
 //--------------------------------------------------------------
@@ -124,36 +116,21 @@ void ofApp::keyReleased(int key){
 
 //--------------------------------------------------------------
 void ofApp::mouseMoved(int x, int y ){
-	if(!frameByframe){
-        int width = ofGetWidth();
-        float pct = (float)x / (float)width;
-        float speed = (2 * pct - 1) * 5.0f;
-        videoPlayer.setSpeed(speed);
-	}
+	
 }
 
 //--------------------------------------------------------------
 void ofApp::mouseDragged(int x, int y, int button){
-	if(!frameByframe){
-        int width = ofGetWidth();
-        float pct = (float)x / (float)width;
-        videoPlayer.setPosition(pct);
-	}
 }
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
-	if(!frameByframe){
-        videoPlayer.setPaused(true);
-	}
+	
 }
 
 
 //--------------------------------------------------------------
 void ofApp::mouseReleased(int x, int y, int button){
-	if(!frameByframe){
-        videoPlayer.setPaused(false);
-	}
 }
 
 //--------------------------------------------------------------

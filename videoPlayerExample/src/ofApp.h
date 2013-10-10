@@ -20,11 +20,14 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);		
 
-		ofVideoPlayer 		videoPlayer;
-		ofGstVideoPlayer*	internalPlayer;
-		bool                frameByframe;
+	ofVideoPlayer 		videoPlayer;
+	ofGstVideoPlayer*	gstVideoPlayer;
+	ofGstVideoUtils*	gstVideoUtils;
+	
 	int videoWidth;
 	int videoHeight;
 	bool doProcessPixels;
+	
+	void onEndOfStream(ofEventArgs& args);
 };
 
