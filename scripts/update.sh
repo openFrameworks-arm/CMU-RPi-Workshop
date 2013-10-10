@@ -9,7 +9,7 @@ git clone https://github.com/bakercp/ofxZeroconf.git /home/pi/openFrameworks/add
 git clone https://github.com/bakercp/ofxSerial.git /home/pi/openFrameworks/addons/ofxSerial 2> /dev/null
 git clone https://github.com/bakercp/ofxESCPOSPrinter.git /home/pi/openFrameworks/addons/ofxESCPOSPrinter 2> /dev/null
 git clone https://github.com/bakercp/ofxIO.git /home/pi/openFrameworks/addons/ofxIO 2> /dev/null
-git clone https://github.com/bakercp/ofxLibmagic.git /home/pi/openFrameworks/addon/ofxLibmagic 2> /dev/null
+git clone https://github.com/bakercp/ofxLibmagic.git /home/pi/openFrameworks/addons/ofxLibmagic 2> /dev/null
 
 git clone https://github.com/bakercp/ofSketch.git /home/pi/openFrameworks/apps/ofSketch 2> /dev/null
 git clone https://github.com/openFrameworks-arm/CMU-RPi-Workshop.git /home/pi/openFrameworks/apps/CMU-RPi-Workshop 2> /dev/null
