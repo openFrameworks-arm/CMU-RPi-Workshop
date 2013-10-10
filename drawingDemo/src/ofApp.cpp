@@ -36,11 +36,11 @@ void ofApp::createNamedPrimitive(of3dPrimitive& primitive, string name, float sc
 	namedPrimitive.primitive = primitive;
 	namedPrimitive.name = name;
 	namedPrimitive.scaleFactor = scaleFactor;
+	
 	//setTexCoordsFromTexture sets normalized or non-normalized tex coords based on an ofTexture passed in.
 	
 	primitive.mapTexCoordsFromTexture( texture );
-	
-	//namedPrimitive.triangles = primitive.getMesh().getUniqueFaces();
+	namedPrimitive.triangles = primitive.getMesh().getUniqueFaces();
 	namedPrimitives.push_back(namedPrimitive);
 }
 
@@ -59,13 +59,16 @@ void ofApp::update(){
 	
 	if (doResetPrimitives)
 	{
+		
 		for (size_t i=0; i<namedPrimitives.size(); i++) 
 		{
 			namedPrimitives[i].primitive.getMesh().setMode( OF_PRIMITIVE_TRIANGLES );
-			vector<ofMeshFace> triangles = namedPrimitives[i].primitive.getMesh().getUniqueFaces();
+			vector<ofMeshFace> triangles = namedPrimitives[i].triangles;
 			namedPrimitives[i].primitive.getMesh().setFromTriangles(triangles, true);
 			namedPrimitives[i].primitive.mapTexCoordsFromTexture( texture );
+			namedPrimitives[i].triangles = namedPrimitives[i].primitive.getMesh().getUniqueFaces();
 		}
+		doResetPrimitives = false;
 	}
 }
 
@@ -91,7 +94,7 @@ void ofApp::draw()
 				}
 				if (doBreakApart) 
 				{
-					breakApart(namedPrimitives[i]);
+					breakApart(namedPrimitives[i].primitive);
 				}
 			if(enableTexture) texture.unbind();
 			ofPopStyle();
@@ -99,9 +102,10 @@ void ofApp::draw()
 	}
 }
 
-void ofApp::breakApart(NamedPrimitive& namedPrimitive)
+void ofApp::breakApart(of3dPrimitive& primitive)
 {
-	vector<ofMeshFace> triangles = namedPrimitive.primitive.getMesh().getUniqueFaces();
+	primitive.getMesh().setMode( OF_PRIMITIVE_TRIANGLES );
+	vector<ofMeshFace> triangles = primitive.getMesh().getUniqueFaces();
 	float angle = (ofGetElapsedTimef() * 1.4);
 	ofVec3f faceNormal;
 	for(std::size_t i = 0; i < triangles.size(); i++ ) 
@@ -113,7 +117,7 @@ void ofApp::breakApart(NamedPrimitive& namedPrimitive)
 			triangles[i].setVertex(j, triangles[i].getVertex(j) + faceNormal * frc );
 		}
 	}
-	namedPrimitive.primitive.getMesh().setFromTriangles(triangles );
+	primitive.getMesh().setFromTriangles( triangles );
 	
 }
 

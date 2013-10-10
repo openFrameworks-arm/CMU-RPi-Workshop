@@ -39,7 +39,7 @@ class ofApp : public ofBaseApp, public SSHKeyListener{
 	
 	vector<NamedPrimitive> namedPrimitives;
 	void createNamedPrimitive(of3dPrimitive& primitive, string name, float scaleFactor);
-	void breakApart(NamedPrimitive& namedPrimitive);
+	void breakApart(of3dPrimitive& primitive);
 	
 	std::size_t counter;
 	
