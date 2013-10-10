@@ -7,7 +7,7 @@ void ofApp::setup(){
 	
 	//ofSetVerticalSync(false);
 	videoPlayer.loadMovie("fingers.mp4");
-	videoPlayer.setLoopState(OF_LOOP_NORMAL);
+	videoPlayer.setLoopState(OF_LOOP_NORMAL); //must set this after loadMovie on the RPI
 	
 	videoWidth	= videoPlayer.getWidth();
 	videoHeight = videoPlayer.getHeight();
