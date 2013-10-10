@@ -24,9 +24,6 @@ class ofApp : public ofBaseApp, public SSHKeyListener, public ofxOMXPlayerListen
 	ofxOMXPlayerSettings settings;
 	ofxOMXPlayer omxPlayer;
 	
-	
-	//void createPlayer(string videoPath);
-	
 	//allows key commands via Shell
 	void onCharacterReceived(SSHKeyListenerEventData& e);
 	ConsoleListener consoleListener;
