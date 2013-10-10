@@ -1,58 +1,123 @@
 #include "ofApp.h"
 
+
+
+
+
 //--------------------------------------------------------------
 void ofApp::setup(){
 
-	ofLoadImage(texture, "of.png");
-	//
-	// resize the plane to the size of the texture //
-	plane.resizeToTexture( texture );
-	// setTexCoordsFromTexture sets normalized or non-normalized tex coords based on an ofTexture passed in.
-	box.mapTexCoordsFromTexture( texture );
-	sphere.mapTexCoordsFromTexture( texture );
-	icoSphere.mapTexCoordsFromTexture( texture );
-	cylinder.mapTexCoordsFromTexture( texture );
-	cone.mapTexCoordsFromTexture( texture );
+	consoleListener.setup(this);
 	
-	primitives.push_back(plane);
-	primitives.push_back(box);
-	primitives.push_back(sphere);
-	primitives.push_back(icoSphere);
-	primitives.push_back(cylinder);
-	primitives.push_back(cone);
+	ofLoadImage(texture, "of.png");
+
+	// resize the plane to the size of the texture //
+	//plane.resizeToTexture( texture );
+	//createNamedPrimitive(plane, "plane", 0.5, texture);
+	
+	createNamedPrimitive(box, "box", 1.5);
+	createNamedPrimitive(sphere, "sphere", 4.0);
+	createNamedPrimitive(icoSphere, "icoSphere", 4.0);
+	createNamedPrimitive(cylinder, "cylinder", 1.5);
+	createNamedPrimitive(cone, "cone", 4.0);
+
 	counter = 0;
 	wireframeMode = false;
-	consoleListener.setup(this);
+	
 	enableTexture = true;
 
-	triangles = icoSphere.getMesh().getUniqueFaces();
 	doBreakApart = false;
-	doResetIco = false;
+	doResetPrimitives = false;
+}
+
+void ofApp::createNamedPrimitive(of3dPrimitive& primitive, string name, float scaleFactor)
+{
+	NamedPrimitive namedPrimitive;
+	namedPrimitive.primitive = primitive;
+	namedPrimitive.name = name;
+	namedPrimitive.scaleFactor = scaleFactor;
+	//setTexCoordsFromTexture sets normalized or non-normalized tex coords based on an ofTexture passed in.
+	
+	primitive.mapTexCoordsFromTexture( texture );
+	
+	//namedPrimitive.triangles = primitive.getMesh().getUniqueFaces();
+	namedPrimitives.push_back(namedPrimitive);
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
 	if (ofGetFrameNum()%100 == 0) 
 	{
-		if (counter+1 < primitives.size()) 
+		if (counter+1 < namedPrimitives.size()) 
 		{
 			counter++;
 		}else 
 		{
 			counter = 0;
 		}
-		
 	}
-	if (doResetIco)
+	
+	if (doResetPrimitives)
 	{
-		icoSphere.setMode( OF_PRIMITIVE_TRIANGLES );
-		triangles = icoSphere.getMesh().getUniqueFaces();
-		icoSphere.getMesh().setFromTriangles(triangles, true);
-		icoSphere.mapTexCoordsFromTexture( texture );
-		doResetIco = false;
+		for (size_t i=0; i<namedPrimitives.size(); i++) 
+		{
+			namedPrimitives[i].primitive.getMesh().setMode( OF_PRIMITIVE_TRIANGLES );
+			vector<ofMeshFace> triangles = namedPrimitives[i].primitive.getMesh().getUniqueFaces();
+			namedPrimitives[i].primitive.getMesh().setFromTriangles(triangles, true);
+			namedPrimitives[i].primitive.mapTexCoordsFromTexture( texture );
+		}
 	}
 }
 
+void ofApp::draw()
+{
+	ofEnableDepthTest();
+	for (size_t i=0; i<namedPrimitives.size(); i++) 
+	{
+		ofPushMatrix();
+			ofTranslate(400, 200);
+			ofTranslate(250*i, 0);
+			ofRotateY(ofGetFrameNum()%360);
+			float scale = namedPrimitives[i].scaleFactor;
+			ofScale(scale, scale, scale);
+			ofPushStyle();
+			if(enableTexture) texture.bind();
+				if (wireframeMode) 
+				{
+					namedPrimitives[i].primitive.drawWireframe();
+				}else 
+				{
+					namedPrimitives[i].primitive.draw();
+				}
+				if (doBreakApart) 
+				{
+					breakApart(namedPrimitives[i]);
+				}
+			if(enableTexture) texture.unbind();
+			ofPopStyle();
+		ofPopMatrix();
+	}
+}
+
+void ofApp::breakApart(NamedPrimitive& namedPrimitive)
+{
+	vector<ofMeshFace> triangles = namedPrimitive.primitive.getMesh().getUniqueFaces();
+	float angle = (ofGetElapsedTimef() * 1.4);
+	ofVec3f faceNormal;
+	for(std::size_t i = 0; i < triangles.size(); i++ ) 
+	{
+		float frc = ofSignedNoise(angle* (float)i * .1, angle*.05) * 4;
+		faceNormal = triangles[i].getFaceNormal();
+		for(std::size_t j = 0; j < 3; j++ ) 
+		{
+			triangles[i].setVertex(j, triangles[i].getVertex(j) + faceNormal * frc );
+		}
+	}
+	namedPrimitive.primitive.getMesh().setFromTriangles(triangles );
+	
+}
+
+#if 0
 //--------------------------------------------------------------
 void ofApp::draw()
 {
@@ -64,7 +129,7 @@ void ofApp::draw()
 		ofScale(randomScale, randomScale, randomScale);
 		ofPushStyle();
 			if(enableTexture) texture.bind();
-				primitives[counter].draw();
+				namedPrimitives[counter].draw();
 			if(enableTexture) texture.unbind();
 		ofPopStyle();
 	ofPopMatrix();*/
@@ -103,19 +168,7 @@ void ofApp::draw()
 	{
 		icoSphere.draw();
 	}
-	if (doBreakApart) 
-	{
-		float angle = (ofGetElapsedTimef() * 1.4);
-		ofVec3f faceNormal;
-		for(std::size_t i = 0; i < triangles.size(); i++ ) {
-			float frc = ofSignedNoise(angle* (float)i * .1, angle*.05) * 4;
-			faceNormal = triangles[i].getFaceNormal();
-			for(std::size_t j = 0; j < 3; j++ ) {
-				triangles[i].setVertex(j, triangles[i].getVertex(j) + faceNormal * frc );
-			}
-		}
-		icoSphere.getMesh().setFromTriangles( triangles );
-	}
+	
 	
 	if(enableTexture) texture.unbind();
 	ofPopStyle();
@@ -195,7 +248,7 @@ void ofApp::draw()
 	cylinder.draw();
 	cone.draw();*/
 }
-
+#endif
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
 	
@@ -212,13 +265,9 @@ void ofApp::keyPressed(int key){
 	{
 		if (doBreakApart) 
 		{
-			doResetIco = true;
-			
-			
+			doResetPrimitives = true;
 		}
 		doBreakApart = !doBreakApart;
-		
-		
 	}
 	
 }

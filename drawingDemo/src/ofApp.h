@@ -3,6 +3,15 @@
 #include "ofMain.h"
 #include "ConsoleListener.h"
 
+
+struct NamedPrimitive 
+{
+	string name;
+	of3dPrimitive primitive;
+	float scaleFactor;
+	vector<ofMeshFace> triangles;
+};
+
 class ofApp : public ofBaseApp, public SSHKeyListener{
 	public:
 		void setup();
@@ -28,7 +37,10 @@ class ofApp : public ofBaseApp, public SSHKeyListener{
     ofConePrimitive cone;
     ofBoxPrimitive box;
 	
-	vector<of3dPrimitive> primitives;
+	vector<NamedPrimitive> namedPrimitives;
+	void createNamedPrimitive(of3dPrimitive& primitive, string name, float scaleFactor);
+	void breakApart(NamedPrimitive& namedPrimitive);
+	
 	std::size_t counter;
 	
 	void onCharacterReceived(SSHKeyListenerEventData& e);
@@ -36,8 +48,6 @@ class ofApp : public ofBaseApp, public SSHKeyListener{
 	
 	bool wireframeMode;
 	bool enableTexture;
-	vector<ofMeshFace> triangles;
-	
 	bool doBreakApart;
-	bool doResetIco;
+	bool doResetPrimitives;
 };
