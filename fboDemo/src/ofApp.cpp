@@ -11,11 +11,11 @@ void ofApp::setup(){
 	fbo.allocate(ofGetWidth(), ofGetHeight());
 	
 	videoPlayer.loadMovie("fingers.mp4");
-	
+	videoPlayer.setLoopState(OF_LOOP_NORMAL); //On the RPI you currently need to call this after loadMovie
 	videoDrawWidth = videoPlayer.getWidth()/4;
 	videoDrawHeight = videoPlayer.getHeight()/4;
 	videoPlayer.play();
-	videoPlayer.setLoopState(OF_LOOP_NORMAL); //This seems to only set after play is called
+	
 }
 
 //--------------------------------------------------------------
@@ -26,7 +26,7 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-	
+	ofBackground(ofColor::black);
 	if (videoPlayer.isFrameNew()) 
 	{
 		fbo.begin();
