@@ -23,7 +23,7 @@ void ofApp::setup(){
 	
 	consoleListener.setup(this);
 	
-	doDrawInfo = true;
+	doDrawInfo = false;
 }
 
 //--------------------------------------------------------------
