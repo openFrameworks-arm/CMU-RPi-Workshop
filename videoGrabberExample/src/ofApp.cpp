@@ -18,15 +18,16 @@ void ofApp::setup(){
 	
 	doInvertPixels = false;
 	shader.load("inverse");
-	ofSetBackgroundColor(10, 10, 10, 255);
 	
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
+	ofBackground(10, 10, 10);
+	
 	videoGrabber.update();
 	
-	if (ofGetFrameNum() % 1000 == 0) 
+	if (ofGetFrameNum() % 500 == 0) 
 	{
 		doInvertPixels = !doInvertPixels;
 	}
@@ -44,19 +45,27 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-	
-	videoGrabber.draw(20, 0);
+		
+	ofPushMatrix();
+	ofTranslate(cameraWidth/2, (ofGetHeight()-cameraHeight)/2, 0);
+	videoGrabber.draw(0, 0);
+	ofDrawBitmapString("SOURCE", 0, -20);
+	ofTranslate(cameraWidth, 0);
 	if(doInvertPixels)
 	{
-		invertedTexture.draw(cameraWidth+20, 0);
+		ofDrawBitmapString("PIXELS, FPS: " + ofToString(ofGetFrameRate(), 0), 0, -20);
+		invertedTexture.draw(0, 0);
 	}
 	else
 	{
+		ofTranslate(cameraWidth, 0);
+		ofDrawBitmapString("SHADER, FPS: " + ofToString(ofGetFrameRate(), 0), 0, -20);
 		shader.begin();
-			videoGrabber.draw(cameraWidth+20, 240);
+			videoGrabber.draw(0, 0);
 		shader.end();
 	}
-	ofDrawBitmapString(ofToString(ofGetFrameRate(), 0), 100, cameraHeight+20);
+	ofPopMatrix();
+	
 }
 
 //--------------------------------------------------------------
