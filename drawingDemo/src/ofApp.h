@@ -3,51 +3,56 @@
 #include "ofMain.h"
 #include "ConsoleListener.h"
 
-
-struct NamedPrimitive 
-{
-	string name;
-	of3dPrimitive primitive;
-	float scaleFactor;
-	vector<ofMeshFace> triangles;
-};
-
 class ofApp : public ofBaseApp, public SSHKeyListener{
-	public:
-		void setup();
-		void update();
-		void draw();
-		
-		void keyPressed(int key);
-		void keyReleased(int key);
-		void mouseMoved(int x, int y);
-		void mouseDragged(int x, int y, int button);
-		void mousePressed(int x, int y, int button);
-		void mouseReleased(int x, int y, int button);
-		void windowResized(int w, int h);
-		void dragEvent(ofDragInfo dragInfo);
-		void gotMessage(ofMessage msg);
 	
-	ofTexture texture;
+public:
+	void setup();
+	void update();
+	void draw();
 	
-	ofSpherePrimitive sphere;
+	void keyPressed  (int key);
+	void keyReleased(int key);
+	void mouseMoved(int x, int y );
+	void mouseDragged(int x, int y, int button);
+	void mousePressed(int x, int y, int button);
+	void mouseReleased(int x, int y, int button);
+	void windowResized(int w, int h);
+	void dragEvent(ofDragInfo dragInfo);
+	void gotMessage(ofMessage msg);
+	
+    bool bFill;
+    bool bWireframe;
+    bool bDrawNormals;
+    bool bDrawAxes;
+    bool bDrawLights;
+    bool bInfoText;
+    bool bMousePressed;
+    bool bSplitFaces;
+    
+    ofImage texture;
+		int mode;
+	ofImage rpiLogo;
+    
+    ofSpherePrimitive sphere;
     ofIcoSpherePrimitive icoSphere;
     ofPlanePrimitive plane;
     ofCylinderPrimitive cylinder;
     ofConePrimitive cone;
     ofBoxPrimitive box;
-	
-	vector<NamedPrimitive> namedPrimitives;
-	void createNamedPrimitive(of3dPrimitive& primitive, string name, float scaleFactor);
-	void breakApart(of3dPrimitive& primitive);
-	
-	std::size_t counter;
-	
+    
+    ofLight pointLight;
+    ofLight pointLight2;
+    ofLight pointLight3;
+    ofMaterial material;
+    
+    // place to store the sides of the box //
+    ofVboMesh boxSides[ofBoxPrimitive::SIDES_TOTAL];
+    ofVboMesh deformPlane;
+    ofVboMesh topCap, bottomCap, body;
+    vector<ofMeshFace> triangles;
+    
+	//allows key commands via Shell
 	void onCharacterReceived(SSHKeyListenerEventData& e);
 	ConsoleListener consoleListener;
-	
-	bool wireframeMode;
-	bool enableTexture;
-	bool doBreakApart;
-	bool doResetPrimitives;
+
 };
