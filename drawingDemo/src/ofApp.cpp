@@ -40,6 +40,7 @@ void ofApp::createNamedPrimitive(of3dPrimitive& primitive, string name, float sc
 	//setTexCoordsFromTexture sets normalized or non-normalized tex coords based on an ofTexture passed in.
 	
 	primitive.mapTexCoordsFromTexture( texture );
+	primitive.getMesh().setMode( OF_PRIMITIVE_TRIANGLES );
 	namedPrimitive.triangles = primitive.getMesh().getUniqueFaces();
 	namedPrimitives.push_back(namedPrimitive);
 }

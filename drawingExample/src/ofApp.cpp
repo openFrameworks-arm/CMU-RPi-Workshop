@@ -49,7 +49,7 @@ void drawCurve()
 
 	ofPushStyle();
 		ofNoFill();
-		ofSetColor(ofColor::red);
+		ofSetColor(ofColor::orange);
 		ofCurve(pt1.x, pt1.y,
 				pt2.x, pt2.y,
 				pt3.x, pt3.y,
@@ -57,11 +57,11 @@ void drawCurve()
 				);
 		
 		//ofSetColor(getRandomColor());
-		ofSetColor(ofColor::blue);
-		ofCircle(pt1, 10);
-		ofCircle(pt2, 10);
-		ofCircle(pt3, 10);
-		ofCircle(pt4, 10);
+		ofSetColor(ofColor::yellow);
+		ofCircle(pt1, 5);
+		ofCircle(pt2, 5);
+		ofCircle(pt3, 5);
+		ofCircle(pt4, 5);
 	ofPopStyle();
 }
 
@@ -75,7 +75,8 @@ void drawShapeFromPoints()
 	
 	ofPushStyle();
 		ofNoFill();
-		ofSetColor(ofColor::black);
+		ofSetLineWidth(5);
+		ofSetColor(ofColor::yellow);
 		ofBeginShape();
 			ofVertex(pt1);
 			ofVertex(pt2);
@@ -88,7 +89,7 @@ void drawShapeFromPoints()
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-	
+	ofBackground(10, 10, 10);
 	int labelY = -20; //
 	
 	//Curves
@@ -108,7 +109,7 @@ void ofApp::draw(){
 	//ofRect
 	ofPushMatrix();
 		ofTranslate(500, 50);
-			ofDrawBitmapString("ofRectangle", 0, labelY);
+			ofDrawBitmapString("ofRect", 0, labelY);
 			ofRectangle rectangle(0, 0, 100, 100);
 			ofRect(rectangle);
 	ofPopMatrix();
@@ -116,7 +117,7 @@ void ofApp::draw(){
 	//ofRectRounded
 	ofPushMatrix();
 	ofTranslate(700, 50);
-		//% is a cool way of keeping a number within range
+		//% (modulus) is a cool way of keeping a number within range
 		float cornerRadius = (float) (ofGetFrameNum()%40);
 		ofDrawBitmapString("ofRectRounded", 0, labelY);
 		ofRectRounded(rectangle, cornerRadius);
@@ -131,6 +132,7 @@ void ofApp::draw(){
 		ofSetCircleResolution(circleResolution);
 		circleInfo << "ofCircle" << "\n" << "Circle Resolution: " << circleResolution;
 		ofDrawBitmapString(circleInfo.str(), 0, labelY);
+	
 		ofCircle(50, 50, 50);
 	ofPopMatrix();
 	
@@ -143,7 +145,7 @@ void ofApp::draw(){
 	
 	//ofDrawBox
 	ofPushMatrix();
-		ofTranslate(ofGetFrameNum()%ofGetWidth()/2, 250);
+		ofTranslate(300, 250);
 		ofDrawBitmapString("ofDrawBox", 50, labelY);
 		ofNoFill();
 		ofRotateY(ofGetFrameNum()%360);
@@ -153,7 +155,7 @@ void ofApp::draw(){
 	
 	//ofDrawSphere
 	ofPushMatrix();
-		ofTranslate(ofGetFrameNum()%ofGetWidth()/2, 350);
+		ofTranslate(300, 350);
 		stringstream info;
 		info << "ofDrawSphere" << "\n" << "ofGetSphereResolution: " << ofGetSphereResolution();
 		ofDrawBitmapString(info.str(), 70, labelY);
@@ -166,7 +168,7 @@ void ofApp::draw(){
 	
 	//ofDrawCone
 	ofPushMatrix();
-		ofTranslate(ofGetFrameNum()%ofGetWidth()/2, 450);
+		ofTranslate(300, 450);
 		ofDrawBitmapString("ofDrawCone", 70, labelY);
 		ofNoFill();
 		ofRotateY(ofGetFrameNum()%360);
@@ -177,7 +179,7 @@ void ofApp::draw(){
 	
 	//ofDrawCylinder
 	ofPushMatrix();
-		ofTranslate(ofGetFrameNum()%ofGetWidth()/2, 550);
+		ofTranslate(300, 550);
 		ofDrawBitmapString("ofDrawCylinder", 70, labelY);
 		ofNoFill();
 		ofRotateY(ofGetFrameNum()%360);
@@ -188,7 +190,8 @@ void ofApp::draw(){
 	
 	//ofDrawIcoSphere
 	ofPushMatrix();
-		ofTranslate(ofGetFrameNum()%ofGetWidth()/2, 650);
+		ofTranslate(ofGetWidth()/2, 0);
+		ofTranslate(100, 520); //center is 0, 0 so we increment from there
 		ofDrawBitmapString("ofDrawIcoSphere", 70, labelY);
 		ofNoFill();
 		ofRotateY(ofGetFrameNum()%360);
@@ -200,7 +203,7 @@ void ofApp::draw(){
 	//ofDrawPlane
 	ofPushMatrix();
 		ofTranslate(ofGetWidth()/2, 0);	//start at center
-		ofTranslate(ofGetFrameNum()%ofGetWidth()/2, 250); //center is 0, 0 so we increment from there
+		ofTranslate(100, 250); //center is 0, 0 so we increment from there
 			ofDrawBitmapString("ofDrawPlane", 70, labelY);
 			ofFill();
 			ofRotateY(ofGetFrameNum()%360);
@@ -211,7 +214,7 @@ void ofApp::draw(){
 	//ofDrawGrid
 	ofPushMatrix();
 		ofTranslate(ofGetWidth()/2, 0);	//start at center	
-		ofTranslate(ofGetFrameNum()%ofGetWidth()/2, 350); //center is 0, 0 so we increment from there
+		ofTranslate(100, 350); //center is 0, 0 so we increment from there
 		ofDrawBitmapString("ofDrawGrid", 70, labelY);
 		//void ofDrawGrid(float scale = 10.0f, float ticks = 8.0f, bool labels = false, bool x = true, bool y = true, bool z = true)
 		ofRotateY(ofGetFrameNum()%360);
