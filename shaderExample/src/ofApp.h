@@ -19,5 +19,6 @@ class ofApp : public ofBaseApp{
 		void gotMessage(ofMessage msg);
 	ofShader shader;
 	ofImage sourceImage;
+	ofFbo fbo;
 	
 };

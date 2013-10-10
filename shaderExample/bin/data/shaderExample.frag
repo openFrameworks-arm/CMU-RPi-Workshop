@@ -6,36 +6,43 @@ varying vec2        texcoord0;
 //These are variables we set in our ofApp using the ofShader API
 
 //our texture reference
+//passed in by
+//shader.setUniformTexture("tex0", sourceImage.getTextureReference(), sourceImage.getTextureReference().texData.textureID);
 uniform sampler2D   tex0;
 
 //width and height that we are working with
+//passed in by
+//shader.setUniform2f("resolution", ofGetWidth(), ofGetHeight());
 uniform vec2        resolution;
 
 //a changing value to work with
+//passed in by
+//shader.setUniform1f("time", ofGetElapsedTimef());
 uniform float       time;
 
 
 //Each shader has one main() function you can use
 //Below are a few implementations. Make sure you have all but one commented out
 
-//Shaders are compile at runtime meaning that you can just change the shader file and re-run the ofApp
+//Shaders are compiled at runtime meaning that you can just change the shader file 
+//and re-run the ofApp without compiling
 
-
+/*
 // just draw the texture to screen		
 void main()
 {
     gl_FragColor = texture2D(tex0, texcoord0);
 }
+*/
 
 
-/*
 // draw the texture to screen, inverted
 void main()
 {
     vec4 texColor = texture2D(tex0, texcoord0);  
     gl_FragColor = vec4(1.0-texColor.r, 1.0-texColor.g, 1.0-texColor.b, texColor.a);
 }
-*/
+
 
 
 /*
