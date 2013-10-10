@@ -59,14 +59,10 @@ void ofApp::update(){
 	
 	if (doResetPrimitives)
 	{
-		
 		for (size_t i=0; i<namedPrimitives.size(); i++) 
 		{
 			namedPrimitives[i].primitive.getMesh().setMode( OF_PRIMITIVE_TRIANGLES );
-			vector<ofMeshFace> triangles = namedPrimitives[i].triangles;
-			namedPrimitives[i].primitive.getMesh().setFromTriangles(triangles, true);
-			namedPrimitives[i].primitive.mapTexCoordsFromTexture( texture );
-			namedPrimitives[i].triangles = namedPrimitives[i].primitive.getMesh().getUniqueFaces();
+			namedPrimitives[i].primitive.getMesh().setFromTriangles(namedPrimitives[i].triangles, true);
 		}
 		doResetPrimitives = false;
 	}
@@ -120,139 +116,6 @@ void ofApp::breakApart(of3dPrimitive& primitive)
 	primitive.getMesh().setFromTriangles( triangles );
 	
 }
-
-#if 0
-//--------------------------------------------------------------
-void ofApp::draw()
-{
-	//ofEnableAlphaBlending();
-	/*ofPushMatrix();
-		ofTranslate(ofGetWidth()/2, ofGetHeight()/2);
-		ofRotateY(ofGetFrameNum()%360);
-		float randomScale = ofRandom(1.0f, 4.0f);
-		ofScale(randomScale, randomScale, randomScale);
-		ofPushStyle();
-			if(enableTexture) texture.bind();
-				namedPrimitives[counter].draw();
-			if(enableTexture) texture.unbind();
-		ofPopStyle();
-	ofPopMatrix();*/
-	
-	ofEnableDepthTest();
-    
-    //ofEnableLighting();
-	
-	ofPushMatrix();
-		ofTranslate(200, 200);
-		ofRotateY(ofGetFrameNum()%360);
-		ofScale(4.0, 4.0, 4.0);
-		ofPushStyle();
-			if(enableTexture) texture.bind();
-				if (wireframeMode) 
-				{
-					sphere.drawWireframe();
-				}else 
-				{
-					sphere.draw();
-				}
-			if(enableTexture) texture.unbind();
-		ofPopStyle();
-	ofPopMatrix();
-	
-	ofPushMatrix();
-	ofTranslate(400, 200);
-	ofRotateY(ofGetFrameNum()%360);
-	ofScale(4.0, 4.0, 4.0);
-	ofPushStyle();
-	if(enableTexture) texture.bind();
-	if (wireframeMode) 
-	{
-		icoSphere.drawWireframe();
-	}else 
-	{
-		icoSphere.draw();
-	}
-	
-	
-	if(enableTexture) texture.unbind();
-	ofPopStyle();
-	ofPopMatrix();
-	
-	ofPushMatrix();
-	ofTranslate(600, 200);
-	ofRotateY(ofGetFrameNum()%360);
-	ofScale(1.5, 1.5, 1.5);
-	ofPushStyle();
-	if(enableTexture) texture.bind();
-	if (wireframeMode) 
-	{
-		cylinder.drawWireframe();
-	}else 
-	{
-		cylinder.draw();
-	}
-	if(enableTexture) texture.unbind();
-	ofPopStyle();
-	ofPopMatrix();
-	
-	ofPushMatrix();
-	ofTranslate(800, 200);
-	ofRotateY(ofGetFrameNum()%360);
-	ofScale(4.0, 4.0, 4.0);
-	ofPushStyle();
-	if(enableTexture) texture.bind();
-	if (wireframeMode) 
-	{
-		cone.drawWireframe();
-	}else 
-	{
-		cone.draw();
-	}
-	if(enableTexture) texture.unbind();
-	ofPopStyle();
-	ofPopMatrix();
-	
-	ofPushMatrix();
-	ofTranslate(200, 400);
-	ofRotateY(ofGetFrameNum()%360);
-	ofScale(1.5, 1.5, 1.5);
-	ofPushStyle();
-	if(enableTexture) texture.bind();
-	if (wireframeMode) 
-	{
-		box.drawWireframe();
-	}else 
-	{
-		box.draw();
-	}
-	if(enableTexture) texture.unbind();
-	ofPopStyle();
-	ofPopMatrix();
-	
-	ofPushMatrix();
-	ofTranslate(400, 400);
-	ofRotateY(ofGetFrameNum()%360);
-	ofScale(0.5, 0.5, 0.5);
-	ofPushStyle();
-	if(enableTexture) texture.bind();
-	if (wireframeMode) 
-	{
-		plane.drawWireframe();
-	}else 
-	{
-		plane.draw();
-	}
-	if(enableTexture) texture.unbind();
-	ofPopStyle();
-	ofPopMatrix();
-	
-	/*sphere.draw();
-	box.draw();
-	icoSphere.draw();
-	cylinder.draw();
-	cone.draw();*/
-}
-#endif
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
 	
