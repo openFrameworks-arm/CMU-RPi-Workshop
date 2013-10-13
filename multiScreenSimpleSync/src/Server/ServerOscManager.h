@@ -4,15 +4,27 @@
 #include "ofxOsc.h"
 #include "ofxXmlSettings.h"
 
+
+
+struct oscClient
+{
+    string ipAddress;
+    int clientID;
+    ofxOscSender sender;
+};
+
+
 // ---------------------------------------------------------------------------------------------------------------------------------------------------
 //
 class ServerOscManager
 {
-    
+    struct SyncClient{
+        
+    };
 public:
     
-    //		ServerOscManager();
-    //		~ServerOscManager();
+		ServerOscManager();
+		~ServerOscManager();
     
     void 			init( string _xmlSettingsPath );
 	
@@ -22,6 +34,7 @@ public:
     
     void 			draw();
     void 			sendData(vector<string> _valuesStrings, vector<int> _valuesInt, vector<float> _valuesFloat );
+    void 			sendData(int clientID, vector<string> _valuesStrings, vector<int> _valuesInt, vector<float> _valuesFloat );
     bool			isInitialised() { return initialised; }
     
     void			_update(ofEventArgs &e);
@@ -34,6 +47,7 @@ private:
     ofxOscReceiver 	receiver;
 	
     vector< string > receivedMessageSubjects;
+    vector<int> clientIDs;
 	
 #ifdef HEADLESS
 #else
@@ -49,5 +63,5 @@ private:
     bool			initialised;
     
     
-    map<string, ofxOscSender> clients;
+    map<int, oscClient> clients;
 };

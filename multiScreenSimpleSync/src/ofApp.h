@@ -35,5 +35,14 @@ public:
     ServerOscManager*   server;
 	
     ofTrueTypeFont		fontSmall;
-    float currTime;
+    float               currTime;
+    
+    int                 screenIndex;
+    int                 displayWidth;
+    int                 displayHeight;
+    int                 viewWidth;
+    int                 viewHeight;
+    int                 screenOffsetX;
+    int                 screenOffsetY;
+    
 };

@@ -77,7 +77,8 @@ void ClientOSCManager::_update(ofEventArgs &e)
 				else if ( argType == OFXOSC_TYPE_FLOAT )
 				{
 					packet.valuesFloat.push_back( m.getArgAsFloat(i) );
-				}else if( argType ==OFXOSC_TYPE_STRING)
+				}
+                else if( argType ==OFXOSC_TYPE_STRING)
                 {
                     packet.valuesString.push_back( m.getArgAsString(i) );
                 }

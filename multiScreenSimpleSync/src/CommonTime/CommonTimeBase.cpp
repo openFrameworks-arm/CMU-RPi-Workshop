@@ -20,9 +20,9 @@ CommonTimeBase::CommonTimeBase()
 	lastPingSentTimeMillis = 0;
 	millisBetweenPings = INITIALISATION_PING_DELAY_MILLIS;
 
-	maxDiffAdjustmentThreshold = 10;		
+	maxDiffAdjustmentThreshold = 1;
 	
-	easeOffset = false;
+	easeOffset = true;
 	offsetMillisTarget = 0;
 }
 

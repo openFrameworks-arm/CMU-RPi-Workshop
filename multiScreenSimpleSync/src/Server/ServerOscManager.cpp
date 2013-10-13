@@ -2,7 +2,7 @@
 
 // ---------------------------------------------------------------------------------------------------------------------------------------------------
 //
-/*ServerOscManager::ServerOscManager()
+ServerOscManager::ServerOscManager()
 {
 	initialised = false;
 }
@@ -11,7 +11,8 @@
 //
 ServerOscManager::~ServerOscManager()
 {
-}*/
+    
+}
 
 // ---------------------------------------------------------------------------------------------------------------------------------------------------
 //
@@ -25,9 +26,9 @@ void ServerOscManager::init( string _xmlSettingsPath )
 	bool loadedFile = XML.loadFile( _xmlSettingsPath );
 	if( loadedFile )
 	{
-		init( XML.getValue("Settings:ServerSendHost",		"192.168.1.255"),
-			  XML.getValue("Settings:ServerSendPost",		7778),
-			  XML.getValue("Settings:ServerReceivePort",	7777) );
+		init( XML.getValue("Settings:ServerSendHost", "192.168.1.255"),
+             XML.getValue("Settings:ServerSendPost",	7778),
+             XML.getValue("Settings:ServerReceivePort",	7777) );
 	}
 	else
 	{
@@ -45,14 +46,13 @@ void ServerOscManager::init(string _serverSendHost, int _serverSendPort, int _se
 	serverSendHost	= _serverSendHost;
 	serverSendPort	= _serverSendPort;
 	serverReceivePort = _serverReceivePort;
-
+    
 	multicastSender.setup( serverSendHost, serverSendPort);
-	
 	receiver.setup( serverReceivePort );
-
+    
 	lastSentHelloMessageMillis = 0;
 	milliseBetweenHelloMessages = 3 * 1000;
-
+    
 	ofAddListener(ofEvents().update, this, &ServerOscManager::_update );
 	
 	initialised = true;
@@ -62,67 +62,63 @@ void ServerOscManager::init(string _serverSendHost, int _serverSendPort, int _se
 //
 void ServerOscManager::_update(ofEventArgs &e)
 {
-
-	// periodically send out a hello message on the multicast address, this way anyone joining us 
+    
+	// periodically send out a hello message on the multicast address, this way anyone joining us
 	// can get the address to the server if they are on the same network and listening to the right port
 	if( (getServerTime() - lastSentHelloMessageMillis) > milliseBetweenHelloMessages )
 	{
 		ofxOscMessage m;
 		m.setAddress("/hello");
 		m.addIntArg( serverReceivePort ); // add the port we would like to use to receive messages as an argument, seems more flexible than having a rule like remote port + 1
-		// add the scene that we are in as well? Otherwise screens joining will not know what scene we are supposed to be in. 
+		// add the scene that we are in as well? Otherwise screens joining will not know what scene we are supposed to be in.
 		
 		multicastSender.sendMessage( m );
 		
 		lastSentHelloMessageMillis = getServerTime();
 	}
-
+    
 	// check for waiting messages
 	while( receiver.hasWaitingMessages() )
 	{
 		// get the next message
 		ofxOscMessage m;
 		receiver.getNextMessage(&m);
-	
+        
 		if( m.getAddress() == "/ping" )
 		{
 			string tmpStr = "Ping, remote time: " + ofToString(m.getArgAsInt32(1)) +
 			" computer: " + ofToString(m.getArgAsInt32(0)) +
 			"  IP: " + m.getRemoteIp() +
 			" Port: " + ofToString(m.getRemotePort());
-            ofxOscSender & _sender = clients[m.getRemoteIp()];
+            ofxOscSender & _sender = clients[m.getArgAsInt32(0)].sender;
             _sender.setup(m.getRemoteIp(), serverSendPort);
             
             receivedMessageSubjects.push_back( tmpStr );
-
-			// we need to send a "pong" message back, either we send this over the multicasting address, 
-			// or we create a multicastSender for each new address and port that send us a message, I'm going to 
+            
+			// we need to send a "pong" message back, either we send this over the multicasting address,
+			// or we create a multicastSender for each new address and port that send us a message, I'm going to
 			// try the multicasting route first.
-
+            
 			// their message comes in as /ping, their ID (int), their timestamp (int)
-
-			int remoteComputerID 	= m.getArgAsInt32(0);			
+            
+			int remoteComputerID 	= m.getArgAsInt32(0);
 			int remoteComputerTime 	= m.getArgAsInt32(1);
-
+            
 			ofxOscMessage m;
 			m.setAddress("/pong");
 			m.addIntArg( remoteComputerID );		// their ID
 			m.addIntArg( getServerTime() );			// my time
-			m.addIntArg( remoteComputerTime );		// their time				
-
+			m.addIntArg( remoteComputerTime );		// their time
+            
 			_sender.sendMessage(m);
             multicastSender.sendMessage(m);
-		}
-		else
-		{
-			receivedMessageSubjects.push_back( ofGetTimestampString() + " " + m.getAddress() );
 		}
 	}
     
 	/*
      * current limit is 20 machines
      */
-
+    
 	int maxSavedSubjects = 20;
 	if( receivedMessageSubjects.size() > maxSavedSubjects )
 	{
@@ -138,22 +134,22 @@ void ServerOscManager::draw()
 	
 	string buf;
 	buf = "Sending OSC messages to " + string(serverSendHost) + ":"+ ofToString(serverSendPort) + "    Listening for OSC messages on port: " + ofToString(serverReceivePort);
-
+    
 #ifdef HEADLESS
-
+    
 #ifdef TARGET_LINUX
 	std::system( "clear" );
 #endif
-
+    
 	cout << "*********************************************************************************" << endl;
 	cout << buf << endl;
 	for( unsigned int i = 0; i < receivedMessageSubjects.size(); i++ )
 	{
-		 cout << "    " << receivedMessageSubjects.at(i) << endl;
+        cout << "    " << receivedMessageSubjects.at(i) << endl;
 	}
 	cout << "*********************************************************************************" << endl;
 #else
-
+    
 	ofDrawBitmapString(buf, 10, 20);
 	
 	for( unsigned int i = 0; i < receivedMessageSubjects.size(); i++ )
@@ -173,7 +169,7 @@ void ServerOscManager::sendData( vector<string> _valuesStrings, vector<int> _val
 	
 	ofxOscMessage m;
 	m.setAddress("/data");
-
+    
     for(unsigned int i = 0; i < _valuesStrings.size(); i++){
         m.addStringArg( _valuesStrings.at(i) );
     }
@@ -188,10 +184,33 @@ void ServerOscManager::sendData( vector<string> _valuesStrings, vector<int> _val
 	}
 	
 	//sender.sendMessage( m );
-    std::map<std::string, ofxOscSender>::iterator iter;
+    std::map<int, oscClient>::iterator iter;
     for(iter = clients.begin(); iter != clients.end(); iter++){
-        iter->second.sendMessage(m);
+        iter->second.sender.sendMessage(m);
     }
+}
+
+void ServerOscManager::sendData(int clientID, vector<string> _valuesStrings, vector<int> _valuesInt, vector<float> _valuesFloat )
+{
+	if( !initialised ) return;
+	
+	ofxOscMessage m;
+	m.setAddress("/data");
+    
+    for(unsigned int i = 0; i < _valuesStrings.size(); i++){
+        m.addStringArg( _valuesStrings.at(i) );
+    }
+	for( unsigned int i = 0; i < _valuesInt.size(); i++ )
+	{
+		m.addIntArg( _valuesInt.at(i) );
+	}
+	
+	for( unsigned int i = 0; i < _valuesFloat.size(); i++ )
+	{
+		m.addFloatArg( _valuesFloat.at(i) );
+	}
+    
+    clients[clientID].sender.sendMessage(m);
 }
 
 // ---------------------------------------------------------------------------------------------------------------------------------------------------

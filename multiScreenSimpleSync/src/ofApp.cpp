@@ -7,7 +7,7 @@ void ofApp::setup()
 	isServer = false;
 	
 	fontSmall.loadFont("Fonts/DIN.otf", 8 );
-		
+    
 	ofSeedRandom();
 	int uniqueID = ofRandom( 999999999 ); // Yeah this is bogus I know. Good enough for our purposes.
     server = NULL;
@@ -23,31 +23,36 @@ void ofApp::setup()
 	}
 	else
 	{
+        ofxXmlSettings XML;
+        bool loadedFile = XML.loadFile( "Settings/ClientSettings.xml" );
+        if( loadedFile )
+        {
+            screenIndex = XML.getValue("Settings:ScreenIndex", 0);
+            displayWidth = XML.getValue("Settings:DisplayWidth", 5120);
+            displayHeight = XML.getValue("Settings:DisplayHeight", 2880);
+            viewWidth = XML.getValue("Settings:ViewWidth", ofGetWidth());
+            viewHeight = XML.getValue("Settings:ViewHeight", ofGetHeight());
+            screenOffsetX = viewWidth*screenIndex;
+        }
+        
 		client = new ClientOSCManager();
-		client->init( uniqueID );
+		client->init( screenIndex );
 		
 		commonTimeOsc = client->getCommonTimeOscObj();
 		commonTimeOsc->setEaseOffset( true );
 		
 		ofAddListener( client->newDataEvent, this, &ofApp::newData );
-        
-        cout<<"Starting Client"<<endl;
 	}
     
     // Read the screen index from a file
-	ofxXmlSettings XML;
-	bool loadedFile = XML.loadFile( "Settings/ClientSettings.xml" );
-	if( loadedFile )
-	{
-		        
-	}
+    
 }
 
 // ---------------------------------------------------------------------------------------------------------------------------------------------------
 //
 void ofApp::update()
 {
-     currTime = 0.0f;
+    currTime = 0.0f;
     if( isServer ) { currTime = ofGetElapsedTimef(); } else { currTime = commonTimeOsc->getTimeSecs(); }
     
 	
@@ -58,21 +63,27 @@ void ofApp::update()
 //
 void ofApp::draw()
 {
-
+    
+    float currTime = 0.0f;
+    
+    if( isServer ) { currTime = ofGetElapsedTimef(); } else { currTime = commonTimeOsc->getTimeSecs(); }
+    
+    
+    
 	// Set a color that pulsates based on the time we get
 	ofColor bgColor;
 	bgColor.setHsb( ((cosf(currTime/10.0f)+1.0f)/2.0f) * 255, 180, ((cosf(currTime*1.4f)+1.0f)/2.0f) * 255 );
 	ofSetColor(bgColor);
 	ofRect(0,0,ofGetWidth(), ofGetHeight() );
-
+    
 	// Rotate a circle
 	ofColor circleColor = bgColor.getInverted();
-	ofSetColor(circleColor);	
+	ofSetColor(circleColor);
 	ofPushMatrix();
-		ofTranslate(ofGetWidth() * 0.5f, ofGetHeight() * 0.5f );
-		ofRotate( currTime * 50.0f );
-		ofTranslate( ofGetHeight() * 0.45f, 0 );
-		ofCircle( 0, 0, 40 );
+    ofTranslate(ofGetWidth() * 0.5f, ofGetHeight() * 0.5f );
+    ofRotate( currTime * 50.0f );
+    ofTranslate( ofGetHeight() * 0.45f, 0 );
+    ofCircle( 0, 0, 40 );
 	ofPopMatrix();
 	
 	ofSetColor(255);
@@ -85,22 +96,90 @@ void ofApp::draw()
     {
         fontSmall.drawString( "Offset: " + ofToString(commonTimeOsc->offsetMillis) + " OffsetTarget: " + ofToString(commonTimeOsc->offsetMillisTarget), 300, 80 );
     }
+    
+    ofSetColor(255, 255, 255);
+    fontSmall.drawString( "Screen: " + ofToString(screenIndex) + "  Time: " + ofToString( currTime, 2), 300, 45 );
 	
 }
 
 void ofApp::newData( DataPacket& _packet  )
-    {
-        if(!isServer){
-            string foo = _packet.valuesString[0];
+{
+    if(!isServer){
+        if(_packet.valuesInt.size() > 0){
+            if(_packet.valuesInt[0] == 0){
+                
+            }
+            if(_packet.valuesInt[0] == 1){
+                
+            }
+            if(_packet.valuesInt[0] == 2){
+                
+            }
+            if(_packet.valuesInt[0] == 3){
+                
+            }
+            if(_packet.valuesInt[0] == 4){
+                
+            }
+            if(_packet.valuesInt[0] == 5){
+                
+            }
         }
     }
+}
 
-    
-    
+
+
 // ---------------------------------------------------------------------------------------------------------------------------------------------------
 //
 void ofApp::keyPressed(int key)
 {
+    if(isServer){
+        DataPacket data;
+        int client;
+        string command;
+        float value;
+        if(key == '1'){
+            client = 0;
+            command = "play";
+            value = 100.00;
+        }
+        if(key == '2'){
+            client = 1;
+            command = "play";
+            value = 50.00;
+            
+        }
+        if(key == '3'){
+            client = 2;
+            command = "play";
+            value = 25.00;
+            
+        }
+        if(key == '4'){
+            client = 3;
+            command = "play";
+            value = 15.00;
+            
+        }
+        if(key == '5'){
+            client = 4;
+            command = "play";
+            value = 5.00;
+            
+        }
+        if(key == '6'){
+            client = 5;
+            command = "play";
+            value = 2.50;
+        }
+        data.valuesFloat.push_back(value);
+        data.valuesInt.push_back(client);
+        data.valuesString.push_back(command);
+        
+        server->sendData(data.valuesString, data.valuesInt, data.valuesFloat);
+    }
+    
 }
 
 // ---------------------------------------------------------------------------------------------------------------------------------------------------

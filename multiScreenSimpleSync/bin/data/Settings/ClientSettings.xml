@@ -1,7 +1,7 @@
 <Settings>
-    <ScreenIndex>2</ScreenIndex>
-    <DisplayWidth>5120</DisplayWidth>
-    <DisplayHeight>2880</DisplayHeight>
+    <ScreenIndex>0</ScreenIndex>
+    <DisplayWidth>1920</DisplayWidth>
+    <DisplayHeight>1080</DisplayHeight>
     <ViewWidth>1280</ViewWidth>
     <ViewHeight>2880</ViewHeight>
 </Settings>
