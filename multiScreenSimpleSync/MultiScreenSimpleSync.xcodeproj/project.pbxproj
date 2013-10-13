@@ -115,6 +115,7 @@
 		9f7986dc4eb05e75fce2c777 /* ofxOscSender.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxOscSender.h; path = ../../../addons/ofxOsc/src/ofxOscSender.h; sourceTree = SOURCE_ROOT; };
 		9fc6737216773a661c044a12 /* CommonTimeBase.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = CommonTimeBase.cpp; path = src/CommonTime/CommonTimeBase.cpp; sourceTree = SOURCE_ROOT; };
 		BBAB23BE13894E4700AA2426 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = ../../../libs/glut/lib/osx/GLUT.framework; sourceTree = "<group>"; };
+		C887466B180B387100B42F9B /* DataPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DataPacket.h; path = Client/DataPacket.h; sourceTree = "<group>"; };
 		C8F1E91717CEF0A000554A01 /* Settings */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Settings; path = bin/data/Settings; sourceTree = "<group>"; };
 		E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = openFrameworksLib.xcodeproj; path = ../../../libs/openFrameworksCompiled/project/osx/openFrameworksLib.xcodeproj; sourceTree = SOURCE_ROOT; };
 		E45BE9710E8CC7DD009D7055 /* AGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AGL.framework; path = /System/Library/Frameworks/AGL.framework; sourceTree = "<absolute>"; };
@@ -272,6 +273,7 @@
 		9a4d14694ec7235044384d14 /* Client */ = {
 			isa = PBXGroup;
 			children = (
+				C887466B180B387100B42F9B /* DataPacket.h */,
 				5085832899ef75e7e4d148bf /* ClientOSCManager.cpp */,
 				9e7e634b7bc2cb48439a6300 /* ClientOSCManager.h */,
 			);

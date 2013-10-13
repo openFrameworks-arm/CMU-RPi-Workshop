@@ -26,9 +26,61 @@ void ClientOSCManager::init( int _uniqueComputerID , int port)
 	
 	ofAddListener(ofEvents().update, this, &ClientOSCManager::_update );
 }
+// ---------------------------------------------------------------------------------------------------------------------------------------------------
+//
+
+void ClientOSCManager::sendData( vector<string> _valuesStrings, vector<int> _valuesInt, vector<float> _valuesFloat )
+{
+	if( !haveSetupSender ) return;
+	
+	ofxOscMessage m;
+	m.setAddress("/data");
+    
+    for(unsigned int i = 0; i < _valuesStrings.size(); i++){
+        m.addStringArg( _valuesStrings.at(i) );
+    }
+	for( unsigned int i = 0; i < _valuesInt.size(); i++ )
+	{
+		m.addIntArg( _valuesInt.at(i) );
+	}
+	
+	for( unsigned int i = 0; i < _valuesFloat.size(); i++ )
+	{
+		m.addFloatArg( _valuesFloat.at(i) );
+	}
+	
+    sender.sendMessage(m);
+    
+}
+
+void ClientOSCManager::sendData( DataPacket _packet)
+{
+	if( !haveSetupSender ) return;
+	
+	ofxOscMessage m;
+	m.setAddress("/data");
+    
+    for(unsigned int i = 0; i < _packet.valuesString.size(); i++){
+        m.addStringArg( _packet.valuesString[i] );
+    }
+	for( unsigned int i = 0; i < _packet.valuesInt.size(); i++ )
+	{
+		m.addIntArg( _packet.valuesInt[i] );
+	}
+	
+	for( unsigned int i = 0; i < _packet.valuesFloat.size(); i++ )
+	{
+		m.addFloatArg( _packet.valuesFloat[i] );
+	}
+	
+    sender.sendMessage(m);
+    
+}
 
 // ---------------------------------------------------------------------------------------------------------------------------------------------------
 //
+
+
 void ClientOSCManager::_update(ofEventArgs &e)
 {
 	// check for waiting messages

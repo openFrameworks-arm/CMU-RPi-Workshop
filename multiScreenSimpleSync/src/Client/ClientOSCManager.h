@@ -2,20 +2,8 @@
 
 #include "ofMain.h"
 #include "ofxOsc.h"
-
-#include "CommonTimeOsc.h"
-
-// ---------------------------------------------------------------------------------------------------------------------------------------------------
-//
-class DataPacket
-{
-public:
-    
-    vector<int> valuesInt;
-    vector<float> valuesFloat;
-    vector<string> valuesString;
-};
-
+#include "CommonTime/CommonTimeOsc.h"
+#include "Client/DataPacket.h"
 // ---------------------------------------------------------------------------------------------------------------------------------------------------
 //
 class ClientOSCManager
@@ -29,6 +17,10 @@ public:
 	
     void	_update(ofEventArgs &e);
 	
+    void    sendData( vector<string> _valuesStrings, vector<int> _valuesInt, vector<float> _valuesFloat );
+    
+    void    sendData(DataPacket _packet);
+    
     inline ofxOscSender*	getOSCSender()
     {
         return &sender;

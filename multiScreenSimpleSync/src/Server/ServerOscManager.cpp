@@ -11,7 +11,7 @@ ServerOscManager::ServerOscManager()
 //
 ServerOscManager::~ServerOscManager()
 {
-    
+    ofRemoveListener(ofEvents().update, this, &ServerOscManager::_update);
 }
 
 // ---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -211,6 +211,58 @@ void ServerOscManager::sendData(int clientID, vector<string> _valuesStrings, vec
 	}
     
     clients[clientID].sender.sendMessage(m);
+}
+
+void ServerOscManager::sendData( DataPacket _packet)
+{
+	if( !initialised ) return;
+	
+	ofxOscMessage m;
+	m.setAddress("/data");
+    
+    for(unsigned int i = 0; i < _packet.valuesString.size(); i++){
+        m.addStringArg( _packet.valuesString[i] );
+    }
+	for( unsigned int i = 0; i < _packet.valuesInt.size(); i++ )
+	{
+		m.addIntArg( _packet.valuesInt[i] );
+	}
+	
+	for( unsigned int i = 0; i < _packet.valuesFloat.size(); i++ )
+	{
+		m.addFloatArg( _packet.valuesFloat[i] );
+	}
+
+    std::map<int, oscClient>::iterator iter;
+    for(iter = clients.begin(); iter != clients.end(); iter++){
+        iter->second.sender.sendMessage(m);
+    }
+}
+
+void ServerOscManager::sendData( DataPacket _packet, int clientID)
+{
+	if( !initialised ) return;
+	
+	ofxOscMessage m;
+	m.setAddress("/data");
+    
+    for(unsigned int i = 0; i < _packet.valuesString.size(); i++){
+        m.addStringArg( _packet.valuesString[i] );
+    }
+	for( unsigned int i = 0; i < _packet.valuesInt.size(); i++ )
+	{
+		m.addIntArg( _packet.valuesInt[i] );
+	}
+	
+	for( unsigned int i = 0; i < _packet.valuesFloat.size(); i++ )
+	{
+		m.addFloatArg( _packet.valuesFloat[i] );
+	}
+    
+    std::map<int, oscClient>::iterator iter;
+    for(iter = clients.begin(); iter != clients.end(); iter++){
+        iter->second.sender.sendMessage(m);
+    }
 }
 
 // ---------------------------------------------------------------------------------------------------------------------------------------------------

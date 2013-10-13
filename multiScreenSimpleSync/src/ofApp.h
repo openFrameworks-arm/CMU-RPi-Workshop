@@ -7,7 +7,7 @@
 #include "CommonTime/CommonTimeOsc.h"
 #include "Server/ServerOscManager.h"
 #include "Client/ClientOSCManager.h"
-
+#include "Client/DataPacket.h"
 
 // ---------------------------------------------------------------------------------------------------------------------------------------------------
 //

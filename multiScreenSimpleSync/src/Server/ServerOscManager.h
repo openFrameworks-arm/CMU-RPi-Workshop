@@ -3,7 +3,7 @@
 #include "ofMain.h"
 #include "ofxOsc.h"
 #include "ofxXmlSettings.h"
-
+#include "Client/DataPacket.h"
 
 
 struct oscClient
@@ -33,6 +33,8 @@ public:
                          int _serverReceivePort );
     
     void 			draw();
+    void 			sendData(DataPacket _packet);
+    void 			sendData(DataPacket _packet, int clientID);
     void 			sendData(vector<string> _valuesStrings, vector<int> _valuesInt, vector<float> _valuesFloat );
     void 			sendData(int clientID, vector<string> _valuesStrings, vector<int> _valuesInt, vector<float> _valuesFloat );
     bool			isInitialised() { return initialised; }
