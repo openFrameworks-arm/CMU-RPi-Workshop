@@ -1,4 +1,5 @@
-Project files for the Creative Coding on the RaspberryPi workshop held at CMU
+Project files for the Creative Coding on the RaspberryPi workshop held at the Frank-Ratchye STUDIO for Creative Inquiry at Carnegie Mellon University 
+http://studioforcreativeinquiry.org/events/creative-coding-on-the-raspberry-pi-with-openframeworks
 
 Requires openFrameworks 0.8.0 or higher: http://www.openframeworks.cc/setup/raspberrypi/
 
