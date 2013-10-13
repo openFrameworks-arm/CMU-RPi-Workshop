@@ -113,6 +113,28 @@ void ServerOscManager::_update(ofEventArgs &e)
 			_sender.sendMessage(m);
             multicastSender.sendMessage(m);
 		}
+        if(m.getAddress() == "/data"){
+            DataPacket packet;
+			
+			for( int i = 0; i < m.getNumArgs(); i++ )
+			{
+				ofxOscArgType argType = m.getArgType(i);
+				if( argType == OFXOSC_TYPE_INT32 || argType ==  OFXOSC_TYPE_INT64 )
+				{
+					packet.valuesInt.push_back( m.getArgAsInt32(i) );
+				}
+				else if ( argType == OFXOSC_TYPE_FLOAT )
+				{
+					packet.valuesFloat.push_back( m.getArgAsFloat(i) );
+				}
+                else if( argType ==OFXOSC_TYPE_STRING)
+                {
+                    packet.valuesString.push_back( m.getArgAsString(i) );
+                }
+			}
+            
+            ofNotifyEvent( newDataEvent, packet, this );
+        }
 	}
     
 	/*

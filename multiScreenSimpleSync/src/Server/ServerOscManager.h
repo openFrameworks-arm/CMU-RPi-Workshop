@@ -41,6 +41,8 @@ public:
     
     void			_update(ofEventArgs &e);
     
+    ofEvent<DataPacket>  newDataEvent;
+    
 private:
     
     int 			getServerTime();

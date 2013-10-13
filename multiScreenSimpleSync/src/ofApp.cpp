@@ -19,6 +19,7 @@ void ofApp::setup()
 		server->init( "Settings/ServerSettings.xml" );
         
 		isServer = server->isInitialised();
+        ofAddListener( server->newDataEvent, this, &ofApp::newData );
         cout<<"Starting Server"<<endl;
 	}
 	else
@@ -125,6 +126,8 @@ void ofApp::newData( DataPacket& _packet  )
                 
             }
         }
+    }else{
+        cout<<"new data"<<endl;
     }
 }
 
@@ -205,6 +208,9 @@ void ofApp::mouseDragged(int x, int y, int button)
 void ofApp::mousePressed(int x, int y, int button)
 {
     if(!isServer){
+        DataPacket packet;
+        packet.valuesString.push_back("mouseClicked");
+        client->sendData(packet);
     }
 }
 
