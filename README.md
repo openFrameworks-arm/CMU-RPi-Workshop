@@ -50,8 +50,7 @@ so it looks like
 
 `#export MAKEFLAGS="-j 64 CXX=/usr/lib/distcc/g++ CC=/usr/lib/distcc/gcc"`
 
-Ctrl+X to save
-Y to confirm
+press Ctrl+X to exit and press Y to confirm the save
 
 
 The image file is currently located at
