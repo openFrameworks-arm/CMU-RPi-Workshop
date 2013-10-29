@@ -56,6 +56,7 @@ press Ctrl+X to exit and press Y to confirm the save
 The image file is currently located at
 http://www.jvcref.com/files/PI/CMU_OF_RPI_MASTER.img
 
+The user/password for the image is pi/pi
 
 
 
