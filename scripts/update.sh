@@ -7,7 +7,8 @@ git clone https://github.com/bakercp/ofxJSON.git /home/pi/openFrameworks/addons/
 git clone https://github.com/bakercp/ofxIpVideoGrabber.git /home/pi/openFrameworks/addons/ofxIpVideoGrabber 2> /dev/null
 git clone https://github.com/bakercp/ofxZeroconf.git /home/pi/openFrameworks/addons/ofxZeroconf 2> /dev/null
 git clone https://github.com/bakercp/ofxSerial.git /home/pi/openFrameworks/addons/ofxSerial 2> /dev/null
-git clone https://github.com/bakercp/ofxESCPOSPrinter.git /home/pi/openFrameworks/addons/ofxESCPOSPrinter 2> /dev/null
+git clone https://github.com/bakercp/ofxESCPOS.git /home/pi/openFrameworks/addons/ofxESCPOS 2> /dev/null
+git clone https://github.com/bakercp/ofxMediaType.git /home/pi/openFrameworks/addons/ofxMediaType 2> /dev/null
 git clone https://github.com/bakercp/ofxIO.git /home/pi/openFrameworks/addons/ofxIO 2> /dev/null
 git clone https://github.com/bakercp/ofxLibmagic.git /home/pi/openFrameworks/addons/ofxLibmagic 2> /dev/null
 
@@ -21,7 +22,8 @@ cd /home/pi/openFrameworks/addons/ofxJSON && git pull && cd -
 cd /home/pi/openFrameworks/addons/ofxIpVideoGrabber && git pull && cd -
 cd /home/pi/openFrameworks/addons/ofxZeroconf && git pull && cd -
 cd /home/pi/openFrameworks/addons/ofxSerial && git pull && cd -
-cd /home/pi/openFrameworks/addons/ofxESCPOSPrinter && git pull && cd -
+cd /home/pi/openFrameworks/addons/ofxESCPOS && git pull && cd -
+cd /home/pi/openFrameworks/addons/ofxMediaType && git pull && cd -
 cd /home/pi/openFrameworks/addons/ofxIO && git pull && cd -
 cd /home/pi/openFrameworks/addons/ofxLibmagic && git pull && cd -
 
