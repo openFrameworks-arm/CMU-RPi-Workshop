@@ -56,8 +56,7 @@ press Ctrl+X to exit and press Y to confirm the save
 ### Disk image
 The user/password for the image is pi/pi   
 
-The image file is currently located at
-[[http://www.jvcref.com/files/PI/CMU_OF_RPI_MASTER.img](https://github.com/openFrameworks-arm/CMU-RPi-Workshop/releases/tag/1.0)](https://github.com/openFrameworks-arm/CMU-RPi-Workshop/releases/tag/1.0)
+The image file is currently located in releases
 
 MIRROR (Google Drive)
 https://docs.google.com/uc?id=0BwE_LuEnOqp3aVlFc0lRTXI0SGc&export=download
